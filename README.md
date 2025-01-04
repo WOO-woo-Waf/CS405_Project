@@ -1,16 +1,18 @@
-# Semantic Segmentation CS405 project
+## CS4055-Project - Semantic Segmentation
 
-English | [简体中文](/README_zh-CN.md)
+[English](/README.md) | 简体中文
 
 [![python-image]][python-url]
 [![pytorch-image]][pytorch-url]
 [![lic-image]][lic-url]
 
-This project aims at providing a concise, easy-to-use, modifiable reference implementation for semantic segmentation models using PyTorch.
-
 <p align="center"><img width="100%" src="docs/weimar_000091_000019_gtFine_color.png" /></p>
 
-## Installation
+该项目旨在提供一个基于[PyTorch](https://pytorch.org/)的简洁、易用且可扩展的语义分割工具箱。
+
+主分支代码目前支持 **PyTorch 1.1.0 以上**的版本
+
+## 安装
 
 ```
 # semantic-segmentation-pytorch dependencies
@@ -23,35 +25,36 @@ conda install pytorch torchvision -c pytorch
 git clone https://github.com/Tramac/awesome-semantic-segmentation-pytorch.git
 ```
 
-## Usage
-### Train
+## 使用方式
+
+### 训练
 -----------------
-- **Single GPU training**
+- **单卡训练**
 ```
 # for example, train fcn32_vgg16_pascal_voc:
 python train.py --model fcn32s --backbone vgg16 --dataset pascal_voc --lr 0.0001 --epochs 50
 ```
-- **Multi-GPU training**
-
+- **分布式训练**
 ```
 # for example, train fcn32_vgg16_pascal_voc with 4 GPUs:
 export NGPUS=4
 python -m torch.distributed.launch --nproc_per_node=$NGPUS train.py --model fcn32s --backbone vgg16 --dataset pascal_voc --lr 0.0001 --epochs 50
 ```
 
-### Evaluation
+### 测试
 -----------------
-- **Single GPU evaluating**
+- **单卡测试**
 ```
 # for example, evaluate fcn32_vgg16_pascal_voc
 python eval.py --model fcn32s --backbone vgg16 --dataset pascal_voc
 ```
-- **Multi-GPU evaluating**
+- **多卡测试**
 ```
 # for example, evaluate fcn32_vgg16_pascal_voc with 4 GPUs:
 export NGPUS=4
 python -m torch.distributed.launch --nproc_per_node=$NGPUS eval.py --model fcn32s --backbone vgg16 --dataset pascal_voc
 ```
+
 ### Demo
 ```
 cd ./scripts
@@ -61,18 +64,8 @@ python demo.py --model fcn32s_vgg16_voc --input-pic ../tests/test_img.jpg
 python demo.py --model fcn32s_vgg16_voc --input-pic ../datasets/test.jpg
 ```
 
-```
-.{SEG_ROOT}
-├── scripts
-│   ├── demo.py
-│   ├── eval.py
-│   └── train.py
-```
-
-## Support
-
-#### Model
-
+### 模型库
+-------------------------------------
 - [FCN](https://arxiv.org/abs/1411.4038)
 - [ENet](https://arxiv.org/pdf/1606.02147)
 - [PSPNet](https://arxiv.org/pdf/1612.01105)
@@ -94,7 +87,8 @@ python demo.py --model fcn32s_vgg16_voc --input-pic ../datasets/test.jpg
 - [LightSeg](https://github.com/Tramac/Lightweight-Segmentation)
 - [DFANet](https://arxiv.org/abs/1904.02216)
 
-[DETAILS](https://github.com/Tramac/awesome-semantic-segmentation-pytorch/blob/master/docs/DETAILS.md) for model & backbone.
+Model与Backbone的支持详情可见[这里](https://github.com/Tramac/awesome-semantic-segmentation-pytorch/blob/master/docs/DETAILS.md)。
+
 ```
 .{SEG_ROOT}
 ├── core
@@ -119,10 +113,8 @@ python demo.py --model fcn32s_vgg16_voc --input-pic ../datasets/test.jpg
 │   │   ├── ......
 ```
 
-#### Dataset
-
-You can run script to download dataset, such as:
-
+### 数据集
+可以选择以下方式下载指定数据集，比如：
 ```
 cd ./core/data/downloader
 python ade20k.py --download-dir ../datasets/ade
@@ -157,9 +149,7 @@ python ade20k.py --download-dir ../datasets/ade
 │   │       └── sbu_shadow.py
 ```
 
-## Result
-- **PASCAL VOC 2012**
-
+## 部分结果
 |Methods|Backbone|TrainSet|EvalSet|crops_size|epochs|JPU|Mean IoU|pixAcc|
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 |FCN32s|vgg16|train|val|480|60|✘|47.50|85.39|
@@ -169,41 +159,28 @@ python ade20k.py --download-dir ../datasets/ade
 |PSPNet|resnet50|train|val|480|60|✘|63.44|89.78|
 |DeepLabv3|resnet50|train|val|480|60|✘|60.15|88.36|
 
-Note: `lr=1e-4, batch_size=4, epochs=80`.
+`lr=1e-4, batch_size=4, epochs=80`.
+注意: 以上结果均基于`train.py`中的默认参数所得，更优的效果请参照paper中具体参数。
 
-## Overfitting Test
-See [TEST](https://github.com/Tramac/Awesome-semantic-segmentation-pytorch/tree/master/tests) for details.
+## 版本
 
-```
-.{SEG_ROOT}
-├── tests
-│   └── test_model.py
-```
+- v0.1.0：相较于master分支，该版本包含了`ccnet`与`psanet`，需要依赖编译产出自定义层，如有需要按照分支说明操作即可。
 
 ## To Do
+
 - [x] add train script
 - [ ] remove syncbn
 - [ ] train & evaluate
 - [x] test distributed training
 - [x] fix syncbn ([Why SyncBN?](https://tramac.github.io/2019/02/25/%E8%B7%A8%E5%8D%A1%E5%90%8C%E6%AD%A5%20Batch%20Normalization[%E8%BD%AC]/))
 - [x] add distributed ([How DIST?]("https://tramac.github.io/2019/03/06/%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%AD%E7%BB%83-PyTorch/"))
-<!--
-- [x] fix syncbn ([Why SyncBN?](https://tramac.github.io/2019/04/08/SyncBN/))
-- [x] add distributed ([How DIST?](https://tramac.github.io/2019/04/22/%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%AD%E7%BB%83-PyTorch/))
--->
-## References
+
+## 参考
 - [PyTorch-Encoding](https://github.com/zhanghang1989/PyTorch-Encoding)
 - [maskrcnn-benchmark](https://github.com/facebookresearch/maskrcnn-benchmark)
 - [gloun-cv](https://github.com/dmlc/gluon-cv)
 - [imagenet](https://github.com/pytorch/examples/tree/master/imagenet)
 
-
-
-<!--
-[![python-image]][python-url]
-[![pytorch-image]][pytorch-url]
-[![lic-image]][lic-url]
--->
 
 [python-image]: https://img.shields.io/badge/Python-2.x|3.x-ff69b4.svg
 [python-url]: https://www.python.org/
