@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/home/wangdx_lab/cse12210928/awesome-semantic-segmentation-pytorch-master/scripts/demo.py", line 59, in <module>
+    demo(args)
+  File "/home/wangdx_lab/cse12210928/awesome-semantic-segmentation-pytorch-master/scripts/demo.py", line 45, in demo
+    model = get_model(args.model, local_rank=args.local_rank, pretrained=True, root=args.save_folder).to(device)
+  File "/home/wangdx_lab/cse12210928/awesome-semantic-segmentation-pytorch-master/core/models/model_zoo.py", line 83, in get_model
+    net = _models[name](**kwargs)
+  File "/home/wangdx_lab/cse12210928/awesome-semantic-segmentation-pytorch-master/core/models/deeplabv3_plus.py", line 138, in get_deeplabv3_plus_xception_voc
+    return get_deeplabv3_plus('pascal_voc', 'xception', **kwargs)
+  File "/home/wangdx_lab/cse12210928/awesome-semantic-segmentation-pytorch-master/core/models/deeplabv3_plus.py", line 127, in get_deeplabv3_plus
+    model = DeepLabV3Plus(datasets[dataset].NUM_CLASS, backbone=backbone, pretrained_base=pretrained_base, **kwargs)
+  File "/home/wangdx_lab/cse12210928/awesome-semantic-segmentation-pytorch-master/core/models/deeplabv3_plus.py", line 38, in __init__
+    self.pretrained = get_xception(pretrained=pretrained_base, output_stride=output_stride, **kwargs)
+  File "/home/wangdx_lab/cse12210928/awesome-semantic-segmentation-pytorch-master/core/models/base_models/xception.py", line 388, in get_xception
+    model = Xception65(**kwargs)
+TypeError: __init__() got an unexpected keyword argument 'local_rank'

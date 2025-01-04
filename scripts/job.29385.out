@@ -1,0 +1,17 @@
+/home/wangdx_lab/cse12210928/awesome-semantic-segmentation-pytorch-master/core/models/deeplabv3_plus.py:132: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  torch.load(get_model_file('deeplabv3_plus_%s_%s' % (backbone, acronyms[dataset]), root=root),
+Traceback (most recent call last):
+  File "/home/wangdx_lab/cse12210928/awesome-semantic-segmentation-pytorch-master/scripts/demo.py", line 59, in <module>
+    demo(args)
+  File "/home/wangdx_lab/cse12210928/awesome-semantic-segmentation-pytorch-master/scripts/demo.py", line 45, in demo
+    model = get_model(args.model, local_rank=args.local_rank, pretrained=True, root=args.save_folder).to(device)
+  File "/home/wangdx_lab/cse12210928/awesome-semantic-segmentation-pytorch-master/core/models/model_zoo.py", line 83, in get_model
+    net = _models[name](**kwargs)
+  File "/home/wangdx_lab/cse12210928/awesome-semantic-segmentation-pytorch-master/core/models/deeplabv3_plus.py", line 138, in get_deeplabv3_plus_xception_voc
+    return get_deeplabv3_plus('citys', 'xception', **kwargs)
+  File "/home/wangdx_lab/cse12210928/awesome-semantic-segmentation-pytorch-master/core/models/deeplabv3_plus.py", line 131, in get_deeplabv3_plus
+    model.load_state_dict(
+  File "/home/wangdx_lab/cse12210928/.local/lib/python3.9/site-packages/torch/nn/modules/module.py", line 2584, in load_state_dict
+    raise RuntimeError(
+RuntimeError: Error(s) in loading state_dict for DeepLabV3Plus:
+	Missing key(s) in state_dict: "auxlayer.block.0.weight", "auxlayer.block.1.weight", "auxlayer.block.1.bias", "auxlayer.block.1.running_mean", "auxlayer.block.1.running_var", "auxlayer.block.4.weight", "auxlayer.block.4.bias". 
